@@ -1,39 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-    <!-- uni 的 SDK，必须引用。 -->
-    <script type="text/javascript" src="//js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.0.1.52.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, viewport-fit=cover">
+    <title>title</title>
     <style>
-        html, body {
-            margin: 0;
-            border: 0;
+        * {
             padding: 0;
+            border: 0;
+            margin: 0;
+        }
+
+        html, body, .app {
+            width: 100%;
+            height: 100%;
+        }
+
+        .app {
+            padding-top: 50px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        .rule {
+            margin: auto auto 20px auto;
+            width: 200px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #409eff;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .rule:active {
+            background-color: #66b1ff;
+        }
+
+        .result {
+            padding-top: 30px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 22px;
         }
     </style>
 </head>
 <body>
-<div id="app">
-    test page
+<div class="app">
+    <div class="rule rule-1" onclick="useRule1()">生成</div>
+    <!--    <div class="rule rule-2">公式2</div>-->
+    <div class="result">
+    </div>
 </div>
-<script>
-    document.addEventListener('UniAppJSBridgeReady', function() {
-        uni.downloadFile({
-            url: 'https://static.aisale.gdcws.cn/res/metaworld/mcb.glb?v=1', //仅为示例，并非真实的资源
-            success: (res) => {
-                if (res.statusCode === 200) {
-                    console.log('下载成功', res.tempFilePath);
-
-                    uni.showToast({
-                        title: res.tempFilePath,
-                        icon: "none"
-                    })
-                }
-            }
-        });
-    });
-</script>
 </body>
+<script>
+
+    const randomArr = (max, len) => {
+        let result = []
+        for (;result.length < len;) {
+            const a = Math.floor(Math.random() * max) + 1
+            const str = a < 10 ? `0${a}` : a
+            if (result.includes(a)) {
+                continue
+            }
+            result.push(str)
+        }
+        result = result.sort((a, b) => {
+            return a - b
+        })
+        return result
+    }
+
+    // const list = []
+    // for (let n = 0; n < 5; n++) {
+    //     const aa = randomArr(35, 5).join(', ')
+    //     const bb = randomArr(12, 2).join(', ')
+    //     list.push(`${aa}--${bb}`)
+    // }
+    //
+    // console.log(list.join('\n'))
+
+    const useRule1 = () => {
+        const list = []
+        for (let n = 0; n < 5; n++) {
+            const aa = randomArr(35, 5).join('&nbsp;&nbsp;&nbsp;')
+            const bb = randomArr(12, 2).join('&nbsp;&nbsp;&nbsp;')
+            list.push(`${aa}&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;&nbsp;${bb}`)
+        }
+
+        const blackboard = document.querySelector('.result')
+
+        blackboard.innerHTML = list.join('<br>')
+    }
+
+</script>
 </html>
