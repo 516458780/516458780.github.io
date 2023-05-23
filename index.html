@@ -145,6 +145,7 @@
     </div>
 
     <div class="tab-content">
+        <div class="random-btn" onclick="cleanHistory()">清空历史</div>
         <div class="history"></div>
     </div>
 </div>
@@ -213,6 +214,14 @@
         console.error(event)
     }
 
+    const cleanHistory = () => {
+        db
+            .transaction([tableName], 'readwrite')
+            .objectStore(tableName)
+            .clear()
+
+        document.querySelector(`.history`).innerHTML = ''
+    }
 
     const addData = (tableName, data) => {
         return new Promise((resolve, reject) => {
@@ -347,7 +356,8 @@
 
             const data = {
                 type,
-                content
+                content,
+                timestamp: new Date().getTime()
             }
 
             result.push(data)
