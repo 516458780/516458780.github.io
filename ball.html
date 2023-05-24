@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            border: 0;
+            margin: 0;
+        }
+
+        html {
+
+            /*轨道半径*/
+            --trackRadius: 130px;
+            /*轨道角度*/
+            /*--trackAngleX: 0deg;*/
+            /*--trackAngleZ: 0deg;*/
+            --trackAngleX: -15deg;
+            --trackAngleZ: 15deg;
+
+            /*行星半径*/
+            --planetRadius: 20px;
+            /*行星间隔角度*/
+            --planetAngle: calc(360deg / 4);
+            /*基础角度*/
+            --planetBaseAngle: 0deg;
+
+            --planetTransitionTime: 0.1;
+        }
+
+        html, body, .camera, .galaxy  {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        html, body, .camera {
+            overflow: hidden;
+        }
+
+        .camera {
+            perspective: 200px;
+            /*perspective-origin: 70% 50%;*/
+        }
+
+        .galaxy {
+            transform-style: preserve-3d;
+            transform: rotateZ(calc(var(--trackAngleZ) * 1)) rotateX(calc(var(--trackAngleX) * 1));
+        }
+
+        .galaxy:hover {
+            animation-play-state: paused;
+        }
+
+        .center-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+            background-color: #cccccc;
+        }
+
+        .track {
+            position: absolute;
+            top: calc(50% - var(--trackRadius));
+            left: calc(50% - var(--trackRadius));
+            border: 1px solid #cccccc;
+            width: calc(var(--trackRadius) * 2);
+            height: calc(var(--trackRadius) * 2);
+            border-radius: var(--trackRadius);
+
+            transform: rotateX(90deg);
+        }
+
+        .planet {
+            --planetIndex: 1;
+            position: absolute;
+            top: calc(50% - var(--planetRadius));
+            left: calc(50% - var(--planetRadius));
+            width: calc(var(--planetRadius) * 2);
+            height: calc(var(--planetRadius) * 2);
+            border: 1px solid #66b1ff;
+            border-radius: 50%;
+            background-color: red;
+            text-align: center;
+            line-height: calc(var(--planetRadius) * 2);
+            transform-origin: center center;
+            transition: all var(--planetTransitionTime)s linear;
+
+            transform:
+                    rotateY(calc((var(--planetIndex) - 1) * var(--planetAngle) + var(--planetBaseAngle)))
+                    translateZ(calc(var(--trackRadius) * 1 + 10px))
+                    rotateY(calc((var(--planetIndex) - 1) * var(--planetAngle) * -1 - var(--planetBaseAngle)))
+                    rotateX(calc(var(--trackAngleX) * -1))
+                    rotateZ(calc(var(--trackAngleZ) * -1));
+        }
+    </style>
+</head>
+<body>
+<div class="camera" ontouchstart="onTouchStart(event)" ontouchmove="onTouchMove(event)" ontouchend="onTouchEnd(event)">
+    <div class="galaxy">
+<!--        <div class="center-line"></div>-->
+<!--        <div class="track"></div>-->
+
+<!--        <div class="planet" style="&#45;&#45;planetIndex: 1;">1</div>-->
+<!--        <div class="planet" style="&#45;&#45;planetIndex: 2;">2</div>-->
+<!--        <div class="planet" style="&#45;&#45;planetIndex: 3;">3</div>-->
+<!--        <div class="planet" style="&#45;&#45;planetIndex: 4;">4</div>-->
+    </div>
+</div>
+</body>
+<script>
+    let planetBaseAngle = 0
+    let eachAngle = -0.5
+    let run = true
+    const galaxy = document.querySelector('.galaxy')
+    const runFun = () => {
+        if (!run) {
+            return
+        }
+
+        requestAnimationFrame(() => {
+            // if (planetBaseAngle >= 360 || planetBaseAngle <= -360) {
+            //     planetBaseAngle = 0
+            //     galaxy.style.setProperty('--planetTransitionTime', '0')
+            //     console.log('重置到0')
+            //     galaxy.style.setProperty('--planetBaseAngle', `${planetBaseAngle}deg`)
+            //     galaxy.style.removeProperty('--planetTransitionTime')
+            //
+            // }
+            // planetBaseAngle += eachAngle
+            // console.log(planetBaseAngle)
+            // galaxy.style.setProperty('--planetBaseAngle', `${planetBaseAngle}deg`)
+
+            setPlanetBaseAngle(planetBaseAngle + eachAngle)
+            runFun()
+        })
+    }
+
+    const setPlanetBaseAngle = (val) => {
+        if (val > 360 || val < -360) {
+            planetBaseAngle = 0
+            galaxy.style.setProperty('--planetTransitionTime', '0')
+            console.log('重置到0')
+            galaxy.style.setProperty('--planetBaseAngle', `${planetBaseAngle}deg`)
+            galaxy.style.removeProperty('--planetTransitionTime')
+            planetBaseAngle = val % 360
+        } else {
+            planetBaseAngle = val
+        }
+        console.log(planetBaseAngle)
+        galaxy.style.setProperty('--planetBaseAngle', `${planetBaseAngle}deg`)
+    }
+
+
+    let runTimeout = null
+
+    let touchstartInfo = null
+
+    const onTouchStart = (e) => {
+        console.log(e)
+        run = false
+        clearTimeout(runTimeout)
+
+        touchstartInfo = {
+            x: e.touches[0].screenX,
+            y: e.touches[0].screenY,
+            planetBaseAngle
+        }
+    }
+
+    const onTouchMove = (e) => {
+        const moveInfo = {
+            x: e.touches[0].screenX,
+            y: e.touches[0].screenY
+        }
+    }
+
+    const onTouchEnd = () => {
+        runTimeout = setTimeout(() => {
+            run = true
+            runFun()
+        }, 3000)
+    }
+
+
+    // runFun()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>
