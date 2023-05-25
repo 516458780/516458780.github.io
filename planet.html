@@ -13,8 +13,10 @@
             /*轨道半径*/
             --trackRadius: 130px;
             /*轨道角度*/
-            --trackAngleX: -15deg;
-            --trackAngleZ: 15deg;
+            --trackAngleX: 0deg;
+            --trackAngleZ: 0deg;
+            /*--trackAngleX: -15deg;*/
+            /*--trackAngleZ: 15deg;*/
 
             /*行星半径*/
             --planetRadius: 20px;
@@ -52,12 +54,11 @@
         }
 
         .galaxy {
+            position: absolute;
+            top: 0;
+            left: 0;
             transform-style: preserve-3d;
             transform: rotateZ(calc(var(--trackAngleZ) * 1)) rotateX(calc(var(--trackAngleX) * 1));
-        }
-
-        .galaxy:hover {
-            animation-play-state: paused;
         }
 
         .center-line {
