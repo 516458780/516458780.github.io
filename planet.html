@@ -42,6 +42,10 @@
             overflow: hidden;
         }
 
+        html {
+            background-color: #000000;
+        }
+
         .camera {
             perspective: 200px;
             /*perspective-origin: 70% 50%;*/
@@ -69,7 +73,7 @@
             position: absolute;
             top: calc(50% - var(--trackRadius));
             left: calc(50% - var(--trackRadius));
-            border: 1px solid #cccccc;
+            border: 1px solid rgba(204, 204, 204, 0.2);
             width: calc(var(--trackRadius) * 2);
             height: calc(var(--trackRadius) * 2);
             border-radius: var(--trackRadius);
@@ -84,7 +88,7 @@
             left: calc(50% - var(--planetRadius));
             width: calc(var(--planetRadius) * 2);
             height: calc(var(--planetRadius) * 2);
-            border: 1px solid #66b1ff;
+            /*border: 1px solid #66b1ff;*/
             border-radius: 50%;
             background-color: red;
             text-align: center;
@@ -120,27 +124,27 @@
         <div class="track"></div>
 
         <div class="planet" style="--planetIndex: 1;">
-            <img class="bg" src="./images/bg.jpg" />
+            <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(1)" />
         </div>
         <div class="planet" style="--planetIndex: 2;">
-            <img class="bg" src="./images/bg.jpg" />
+            <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(2)" />
         </div>
         <div class="planet" style="--planetIndex: 3;">
-            <img class="bg" src="./images/bg.jpg" />
+            <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(3)" />
         </div>
         <div class="planet" style="--planetIndex: 4;">
-            <img class="bg" src="./images/bg.jpg" />
+            <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(4)" />
         </div>
         <div class="planet" style="--planetIndex: 5;">
-            <img class="bg" src="./images/bg.jpg" />
+            <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(5)" />
         </div>
         <div class="planet" style="--planetIndex: 6;">
-            <img class="bg" src="./images/bg.jpg" />
+            <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(6)" />
         </div>
     </div>
