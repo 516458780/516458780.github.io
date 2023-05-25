@@ -177,7 +177,7 @@
 
         if (planetBaseAngle > 360 || planetBaseAngle < -360) {
             const lastAngle = Number((planetBaseAngle % 360).toFixed(2))
-            console.log('lastAngle===>', lastAngle)
+            // console.log('lastAngle===>', lastAngle)
 
             galaxy.style.setProperty('--planetBaseAngle', `${lastAngle}deg`)
 
@@ -186,7 +186,7 @@
 
         planetBaseAngle = val
         galaxy.style.setProperty('--planetBaseAngle', `${planetBaseAngle}deg`)
-        console.log(planetBaseAngle)
+        // console.log(planetBaseAngle)
     }
 
 
