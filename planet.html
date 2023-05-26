@@ -8,24 +8,24 @@
     <style>
         :root {
             /*行星数量*/
-            --planetCount: 6;
+            --planetCount: 5;
 
             /*轨道半径*/
             --trackRadius: 130px;
             /*轨道角度*/
             --trackAngleX: -15deg;
             --trackAngleZ: 15deg;
-            /*--trackAngleX: 0deg;*/
+            /*--trackAngleX: -15deg;*/
             /*--trackAngleZ: 0deg;*/
 
             /*行星半径*/
-            --planetRadius: 20px;
+            --planetRadius: 10px;
             /*行星间隔角度*/
             --planetAngle: calc(360deg / var(--planetCount));
             /*基础角度*/
             --planetBaseAngle: -350deg;
             /*自动角度*/
-            --planetAutoAngle: -0.6deg;
+            --planetAutoAngle: -0.3deg;
         }
 
         * {
@@ -58,6 +58,7 @@
             top: 0;
             left: 0;
             transform-style: preserve-3d;
+            transform-origin: center center;
             transform: rotateZ(calc(var(--trackAngleZ) * 1)) rotateX(calc(var(--trackAngleX) * 1));
         }
 
@@ -67,7 +68,7 @@
             left: 50%;
             width: 1px;
             height: 100%;
-            background-color: #cccccc;
+            background-color: rgba(204, 204, 204, 0.2);
         }
 
         .track {
@@ -79,6 +80,7 @@
             height: calc(var(--trackRadius) * 2);
             border-radius: var(--trackRadius);
 
+            transform-origin: center center;
             transform: rotateX(90deg);
         }
 
@@ -116,14 +118,24 @@
             left: 50%;
             width: 20px;
         }
+
+        .planet:nth-of-type(1) {
+            --trackRadius: 0px;
+            --planetRadius: 40px;
+
+            transform:
+                    translateY(calc(var(--planetRadius) * 0.5))
+                    rotateY(calc((var(--planetIndex) - 1) * var(--planetAngle) + var(--planetBaseAngle)))
+                    translateZ(calc(var(--trackRadius) * 1))
+                    rotateY(calc((var(--planetIndex) - 1) * var(--planetAngle) * -1 - var(--planetBaseAngle)))
+                    rotateX(calc(var(--trackAngleX) * -1))
+                    rotateZ(calc(var(--trackAngleZ) * -1));
+        }
     </style>
 </head>
 <body>
 <div class="camera" ontouchstart="onTouchStart(event)" ontouchmove="onTouchMove(event)" ontouchend="onTouchEnd(event)">
     <div class="galaxy">
-        <div class="center-line"></div>
-        <div class="track"></div>
-
         <div class="planet" style="--planetIndex: 1;">
             <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(1)" />
@@ -148,6 +160,8 @@
             <img class="bg" src="./images/planet.jpg" />
             <img class="tip" src="./images/tip.png" onclick="onPlanetClick(6)" />
         </div>
+        <div class="center-line"></div>
+        <div class="track"></div>
     </div>
 </div>
 </body>
