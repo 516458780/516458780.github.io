@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification</title>
+    <style>
+        .btn {
+            width: 150px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 3px;
+            background-color: #66b1ff;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+<div class="btn" onclick="sendTest()">给个消息提醒</div>
+</body>
+<script>
+    function notifyMe(title = '', options = {}, onclick) {
+        onclick = onclick && onclick instanceof Function ? onclick : function() {}
+        if (!("Notification" in window)) {
+            // Check if the browser supports notifications
+            // alert("This browser does not support desktop notification");
+            console.log('1111')
+            return
+        } else if (Notification.permission === "granted") {
+            // Check whether notification permissions have already been granted;
+            // if so, create a notification
+            console.log('2222')
+            const n = new Notification(title, options)
+            n.onclick = onclick
+            return
+            // …
+        } else if (Notification.permission !== "denied") {
+            // We need to ask the user for permission
+            console.log('3333')
+            Notification.requestPermission().then((permission) => {
+                // If the user accepts, let's create a notification
+                console.log('44444')
+                if (permission === "granted") {
+                    console.log('5555')
+                    const n = new Notification(title, options)
+                    n.onclick = onclick
+                }
+            });
+            return
+        }
+        console.log('666')
+
+        // At last, if the user has denied notifications, and you
+        // want to be respectful there is no need to bother them anymore.
+    }
+
+    function sendTest() {
+        alert('5秒后推送消息提醒')
+        setTimeout(() => {
+            notifyMe('新消息', {
+                body: '这是新消息的内容'
+            }, function(){
+                window.focus()
+            })
+        }, 5000)
+    }
+</script>
+</html>
