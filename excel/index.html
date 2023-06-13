@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./polyfill-6.26.0.js"></script>
+    <script src="./exceljs.js"></script>
+</head>
+<body>
+<button id="exportBtn">导出excel</button>
+</body>
+<script type="module">
+    import { exportExcel, titleArr, dataArr } from './index.js'
+    document.querySelector('#exportBtn').addEventListener('click', (e) => {
+        exportExcel({
+            filename: `excel`,
+            titleArr,
+            data: dataArr
+        })
+    })
+
+    // import('./index.js')
+    //     .then(({ exportExcel, titleArr, dataArr }) => {
+    //         exportExcel({
+    //             filename: `excel`,
+    //             titleArr,
+    //             data: dataArr
+    //         })
+    //     })
+
+</script>
+</html>
