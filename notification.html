@@ -62,14 +62,14 @@
     function sendTest() {
         alert('5秒后推送消息提醒')
         setTimeout(() => {
+            const audio = document.getElementById('audio')
+            audio.play()
+
             notifyMe('新消息', {
                 body: '这是新消息的内容'
             }, function(){
                 window.focus()
             })
-
-            const audio = document.getElementById('audio')
-            audio.play()
 
         }, 5000)
     }
