@@ -18,7 +18,9 @@
     </style>
 </head>
 <body>
-<div class="btn" onclick="sendTest()">给个消息提醒</div>
+<div class="btn" onclick="sendTest(5 * 1000)">5秒后给个消息提醒</div>
+<div class="btn" onclick="sendTest(5 * 60 * 1000)">5分钟后给个消息提醒</div>
+<div class="btn" onclick="sendTest(10 * 60 * 1000)">10分钟后给个消息提醒</div>
 <audio id="audio" controls preload="auto">
     <source src="/public/y1184.mp3" type="audio/mpeg">
 </audio>
@@ -59,8 +61,8 @@
         // want to be respectful there is no need to bother them anymore.
     }
 
-    function sendTest() {
-        alert('5秒后推送消息提醒')
+    function sendTest(time = 5000) {
+        alert(`稍后推送`)
         setTimeout(() => {
             const audio = document.getElementById('audio')
             audio.play()
@@ -71,7 +73,7 @@
                 window.focus()
             })
 
-        }, 5000)
+        }, time)
     }
 
 
