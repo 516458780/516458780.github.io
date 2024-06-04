@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .app-box {
+            width: 400px;
+            height: 400px;
+            background: antiquewhite;
+        }
+        .app-box #app {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background: aliceblue;
+        }
+
+        .app-box #app .icon {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background: aquamarine;
+        }
+
+        .app-box #app .icon::before {
+            content: '12';
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 20px;
+            height: 20px;
+            background: red;
+            color: aqua;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-box">
+    <div id="app">
+        <div class="icon"></div>
+    </div>
+</div>
+
+<script>
+    function generateRandomString(length) {
+        const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters[randomIndex];
+        }
+        return `${result}-${new Date().getTime()}`;
+    }
+
+    function copyElement(element) {
+        const uniqueKey = generateRandomString(10)
+        const style = window.getComputedStyle(element);
+        const newElement = element.cloneNode(true);
+        const newStyleTag = document.createElement('style');
+        let newStyleInnerHTML = ``;
+
+        newElement.classList.add(uniqueKey)
+
+        // 自身样式
+        newStyleInnerHTML += `.${uniqueKey} {`
+        for (let i = 0; i < style.length; i++) {
+            const key = style[i]
+            newStyleInnerHTML += `${key}: ${style[key]};`
+        }
+        newStyleInnerHTML += `}`
+
+
+        // :before伪类样式
+        const beforeEleStyle = window.getComputedStyle(element, ':before')
+        if (beforeEleStyle.content !== 'none') {
+            newStyleInnerHTML += `.${uniqueKey}::before {`
+
+            for (let i = 0; i < beforeEleStyle.length; i++) {
+                const key = beforeEleStyle[i]
+                newStyleInnerHTML += `${key}: ${beforeEleStyle[key]};`
+            }
+
+            newStyleInnerHTML += `}`
+        }
+
+
+        // :after伪类样式
+        const afterEleStyle = window.getComputedStyle(element, ':after')
+        if (afterEleStyle.content !== 'none') {
+            newStyleInnerHTML += `.${uniqueKey}::after {`
+
+            for (let i = 0; i < afterEleStyle.length; i++) {
+                const key = afterEleStyle[i]
+                newStyleInnerHTML += `${key}: ${afterEleStyle[key]};`
+            }
+
+            newStyleInnerHTML += `}`
+        }
+
+        newStyleTag.innerHTML = newStyleInnerHTML
+
+
+        // 子元素
+        const childEle = element.children
+        const newChildEle = newElement.children
+        if (childEle) {
+            for (let n = 0, length = childEle.length; n < length; n++) {
+                newElement.replaceChild(copyElement(childEle[n]), newChildEle[n])
+            }
+        }
+
+        newElement.appendChild(newStyleTag)
+
+        return newElement;
+    }
+
+    const newEEE = copyElement(document.querySelector('.icon'))
+    // const newEEE = copyElement(document.querySelector('#app'))
+    newEEE.style.position = 'fixed'
+    newEEE.style.top = '200px'
+    newEEE.style.left = '200px'
+    document.body.appendChild(newEEE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
